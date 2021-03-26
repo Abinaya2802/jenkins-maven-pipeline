@@ -6,6 +6,6 @@ node{
       stage('Build'){
          // Get maven home path and build
          def mvnHome =  tool name: 'Maven 3.5.4', type: 'maven' 
-         sh 'mvn -Dmaven.test.failure.ignore=true install'
+         sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
       }       
 }
