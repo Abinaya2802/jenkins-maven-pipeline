@@ -1,58 +1,120 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
- xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" 
- xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <properties>
+        <phpmavenTagName>${project.version}</phpmavenTagName>
+    </properties>
 
- <parent>
-  <groupId>org.phpmaven</groupId>
-  <artifactId>php-parent-pom</artifactId>
-  <version>2.0.2</version>
- </parent>
+    <parent>
+        <groupId>org.phpmaven.build</groupId>
+        <artifactId>generic-java-parent</artifactId>
+        <version>2.0.3-SNAPSHOT</version>
+        <relativePath>../java-parent/pom.xml</relativePath>
+    </parent>
 
- <modelVersion>4.0.0</modelVersion>
- <groupId>org.phpsample</groupId>
- <packaging>php</packaging>
- <version>1.0-SNAPSHOT</version>
- <build>
-  <plugins>
-   <plugin>
     <groupId>org.phpmaven</groupId>
-    <artifactId>maven-php-plugin</artifactId>
-    <extensions>true</extensions>
-   </plugin>
+    <artifactId>maven-php-phpunit</artifactId>
+    <packaging>jar</packaging>
 
-   <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-site-plugin</artifactId>
-    <version>3.0</version>
-    <configuration>
-     <reportPlugins>
-      <plugin>
-       <groupId>org.phpmaven</groupId>
-       <artifactId>maven-php-plugin</artifactId>
-       <reportSets>
-        <reportSet>
-         <reports>
-          <report>phpdocumentor</report>
-          <report>phpunit-coverage</report>
-          <report>phpunit</report>  
-         </reports>
-        </reportSet>
-       </reportSets>
-      </plugin>
-     </reportPlugins>
-    </configuration>
-   </plugin>
-  </plugins>
- </build>
+    <name>maven-php-phpunit:${project.version}</name>
 
- <dependencies>
-  <!--  phpUnit for PHP 5 -->
-  <dependency>
-   <groupId>de.phpunit</groupId>
-   <artifactId>PHPUnit</artifactId>
-   <version>3.6.10</version>
-   <type>phar</type>
-  </dependency>
- </dependencies>
+    <description>
+        A Maven plugin for dependency management and quality assurance in PHP projects. Uses
+        the default Maven lifecycle to provide multiple php features.
+        
+        Running phpunit tests.
+    </description>
+    
+    <url>${phpmavenRootUrl}/${phpmavenTagType}/${phpmavenTagName}/maven-php-phpunit/</url>
+    
+    <distributionManagement>
+        <site>
+            <id>upload-${phpmavenSitesId}</id>
+            <name>${phpmavenSitesName}</name>
+            <url>${phpmavenSitesUploadUrl}/${phpmavenTagType}/${phpmavenTagName}/maven-php-phpunit/</url>
+        </site>
+    </distributionManagement>
+    
+    <dependencies>
+        <dependency>
+        	<groupId>org.phpmaven</groupId>
+        	<artifactId>maven-php-exec</artifactId>
+        	<version>${project.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.phpmaven</groupId>
+        	<artifactId>maven-php-project</artifactId>
+        	<version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+        	<groupId>org.phpmaven</groupId>
+        	<artifactId>phpmaven-testtool</artifactId>
+        	<version>${project.version}</version>
+        	<scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.phpmaven</groupId>
+        	<artifactId>maven-php-phar</artifactId>
+        	<version>${project.version}</version>
+        	<scope>test</scope>
+        </dependency>
+    </dependencies>
+  
+  <build>
+      <plugins>
+          <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cobertura-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-remote-resources-plugin</artifactId>
+          </plugin>
+            <plugin>
+                <groupId>org.phpmaven.sites</groupId>
+                <artifactId>sitemap-plugin</artifactId>
+            </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <configuration>
+              	<reportPlugins>
+              		<plugin>
+                		<groupId>org.codehaus.mojo</groupId>
+                		<artifactId>cobertura-maven-plugin</artifactId>
+		                <configuration>
+        			        <formats>
+        			            <format>xml</format>
+        			            <format>html</format>
+        			        </formats>
+            			</configuration>
+		            </plugin>
+              	</reportPlugins>
+              </configuration>
+          </plugin>
+            <plugin>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-metadata</artifactId>
+                <version>1.5.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-metadata</goal>
+                            <goal>generate-test-metadata</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+  </build>
+
 </project>
